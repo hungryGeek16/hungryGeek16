@@ -120,7 +120,7 @@
           Here we will understand every function present in this module step by step:<br>
           <br>
           1. First, consider an input image of size H X W X C, where <b>H = height of the image, W = Width of the image, C = channels</b>. This input is passed on to a <b>feed-forward</b> layer that splits
-          it into three seperate vector representations of same height and width as the original and divides them channel-wise based on the number of heads(<b>n</b>), namely, <b>Q(queries), K(keys), V(values)</b>. The Q, K and V vectors can be intrepreted as the same input image, but more enhanced in way to suite the self-attention module. 
+          it into three seperate vector representations of same height and width as the original and divides them channel-wise based on the number of heads(<b>n</b>), namely, <b>Q(queries), K(keys), V(values)</b>. The Q, K and V vectors can be intrepreted as the same input image, but more enhanced in a way to suite the self-attention module. 
           Note that the image is structured in the form of nine <b>n x 3 x 3 x C/n</b> patches in row-column wise manner. For the purpose of understanding we'll consider that attention module is single headed.<br>
           <img src="../images/splits.png" alt="VIT" width="800" class="center">
           <br>
