@@ -187,8 +187,8 @@
         1. Input adaptive weights(achieved by self-attention module).<br>
         2. Understanding global context(achieved by the whole transformer block)
 
-        <p>As stated earlier MobileVITs are a combination of CNN and transformer blocks, in particular CNNs are <b>Inverted Residual blocks</b>. These operations form the crux of MobileNetV2 architecture. Anyways, below we can see the operations present in 
-        a single inverted residual block. It follows narrow --> wdie --> narrow approach</p>
+        <p>As stated earlier MobileVITs are a combination of CNN and transformer blocks, in particular CNNs are used as <b>Inverted Residual blocks</b>. These operations form the crux of MobileNetV2 architecture. Anyways, below we can see the operations present in 
+        a single inverted residual block. It follows narrow --> wide --> narrow approach</p>
         <img src="../images/residual.jpg" alt="residual" width="600" class="center">
         <div style="text-align: center"> 
           <a href="https://www.researchgate.net/figure/Residual-block-12-36-and-inverted-residual-block_fig2_358518820"> Source:ResearchGate Article </a> 
@@ -200,7 +200,7 @@
         3) 3rd Operation is again a Pointwise convolution, that has a window size of 1 x 1 followed by a ReLU.<br>
 
         <p>Instead of having multiple convolution channels, inverted residual blocks reduce the number of parameters 
-          by smartly opening up the image learning singular filters and clossing it afterwards. 
+          by smartly opening up the image learning 1 x 1 filters and clossing it afterwards. 
           In this way it reduces the amount of learnable paramters.</p>
         
         <b><u>The whole architecture: </u></b>
@@ -221,13 +221,13 @@
         <br>
         <h4 class="h4 fw-light mb-4"> <u> MobileVIT_XXS: </u></h4>
 
-        <p>There are mainly three variants of MobileVITs, they are MobileVIT-S, MobileVIT-XS and MobileVIT-XXS. We'll focus on MobileVIT-XXS, because of it's remarkable feature of compactability. 
+        <p>There are mainly three variants of MobileVITs, they are MobileVIT-S, MobileVIT-XS and MobileVIT-XXS. We'll focus on MobileVIT-XXS, because of it's remarkable compact size. 
         Below we can refer to the whole archiitecture of MobileVIT.</p>
 
         <img src="../images/mvit_xxs.png" alt="mvit_xxs" width="1000" class="center"><br>
 
-        <p>Either we can add a logit layer at the end of the avergae pool layer in the above image to transfer learn the model on classification task, 
-        or we take input from various stages of the model like a SSD architecture to transfer learn it on any detection task.</p>
+        <p>Either we can add a logit layer at the end of the avergae pool layer in the above image to fine tune it on classification tasks, 
+        or we take input from various stages of the model like SSD architecture to fine tune it on detection task.</p>
 
         <h5 class="h5 fw-light mb-4"> <u>MobileVIT_XXS object detector: </u></h5>
         <p>1. The feature maps at different stages in the MobileVIT architecture are taken into account and are passed on to a SSD Block that finds out bounding box offsets and class scores. </p>
@@ -235,7 +235,7 @@
         <p>2. As we can see above, the SSD blocks are formed at different points in the pipeline, the points are suggested by the official repository of the paper <a href="https://github.com/apple/ml-cvnets/tree/cvnets-v0.1">here.</a> </p>
         3. Basic parameters by which the model was trained are as follows:<br>
         a. First the model was trained on ImageNet-1K as a classification task without SSD blocks, with AdamW optimizer, and a label smoothing cross-entropy loss. Cosine scheduling is used to update learning rates. Data augmentations as random resized cropping and horizontal flipping were also used.<br>
-        b. Then the logit layer was removed, and SSD blocks were attached at different points in the pipeline. Except for SSD blocks, entire architecture was freezed* and transfer learned as detection task on COCO dataset.<br>
+        b. Then the logit layer was removed, and SSD blocks were attached at different points in the pipeline. Except for SSD blocks, entire architecture was freezed and transfer learned as detection task on COCO dataset.<br>
         c. Again AdamW was used as an optimizer for this task, smooth L1 and cross-entropy loss were used to optimize the architecture.  
         </div>
       </div>
@@ -248,8 +248,8 @@
         <h2 class="h2 fw-light mb-4"> <u>d. Transfer Learning Approach for MobileVIT detector: </u></h2>
 
         <p>1. The original model was trained on 81 COCO classes, where it proposed 6 prior boxes at every point of the feature map for <b>first 5 SSD Blocks</b>, and 4 prior boxes for last SSD block. </p>
-        <p>2. So for each prior box there are 4 seperate box offsets and 81 class objects(1 being the background) associated with it. Hence for 6 boxes, there would be 6 X 85, 510 values. The same applies for layer that has 4 priors, hence would have 340.</p>
-        <p>3. The gradients are calculated by seperating out box offsets and class objects, then same gradient optimizer is applied to every weight in the architecture.</p>
+        <p>2. So for each prior box there are 4 seperate box offsets and 81 class objects(1 being the background) associated with it. Hence for 6 boxes, there would be 6 X 85, 510 values. So for every feature map of height = h and width = w given out by the ssd module, there consists h x w x 510 values. The same applies for layer that has 4 priors, hence would have 340.</p>
+        <p>3. Individual loss incurred by box offsets and class scores are calculated at the end of each iteration, followed by backpropogating gradients of these losses based on an updation policy (like AdamW).</p>
         <p>4. This setting would be suitable if the model had to train from scratch. But, here if we want to transfer learn the detector model on a different set of objects, we also need to train the entire SSD blocks from scratch. Training the SSD blocks from scratch would be quite a strenuous task.</p>
 
         <p>5. Nevertheless, when an image that has object out of COCO class list, the model draws a near perfect bounding box in the image, regardless of the scores and labels with it classifies. </p>
