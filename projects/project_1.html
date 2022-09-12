@@ -252,13 +252,14 @@
         <p>3. Individual loss incurred by box offsets and class scores are calculated at the end of each iteration, followed by backpropogating gradients of these losses based on an updation policy (like AdamW).</p>
         <p>4. This setting would be suitable if the model had to train from scratch. But, here if we want to transfer learn the detector model on a different set of objects, we also need to train the entire SSD blocks from scratch. Training the SSD blocks from scratch would be quite a strenuous task.</p>
 
-        <p>5. Nevertheless, when an image that has object out of COCO class list, the model draws a near perfect bounding box in the image, regardless of the scores and labels with it classifies. </p>
+        <p>5. Nevertheless, when the mobilevit-xxs that was fine tuned on COCO-2014 dataset which contained 81 classes, looks at an image that has an object out of that COCO list, it draws a perfect bounding box around it regardless the confidence of its classification.</p>
         <img src="../images/false.png" alt="ims" width="500" class="center"><br>
+        <p>6. It looks like the bounding box part do not require any training, but mobilevit architecture applies combined gradients of both object score and bounding box, it is necessay to seperate them out.
 
         <img src="../images/split_the_box.png" alt="ims" width="600" class="center"><br>
         <p>7. As shown above, an output from a SSD block would always be in the shape H X W X 510, because there are 6 priors and 85 values associated to every (H,W)th value.</p>
         <p>8. Out of 510 channels, first 85 channels are associated with first prior box, next 85 are associated with second prior box and so on.</p>
-        <p>9. Therefore, based on this pattern, two seperate layers can be formed by seperating out box offsets and class values. Consequently box offsets can be freezed, and only class values are learnt.</p>
+        <p>9. Therefore, based on this pattern, two seperate layers can be formed by seperating out box offsets and object scores. Consequently box offsets can be freezed, and only object scores fine tuned.</p>
 
         </div>
       </div>
