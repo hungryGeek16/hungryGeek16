@@ -182,10 +182,10 @@
         Two main important functionalities of CNNs and VITs each, are taken into account while designing MobileVit are:<br>
         <b>CNN:</b><br>
         1. Inductive bias.<br>
-        2. Resistance to data augmentation methods.<br>
+        2. Invariance to data augmentation methods.<br>
         <b>VIT:</b><br>
-        1. Input adaptive weights(Self-Attention module).<br>
-        2. Understanding global context(Whole transformer block)
+        1. Input adaptive weights(achieved by self-attention module).<br>
+        2. Understanding global context(achieved by the whole transformer block)
 
         <p>As stated earlier MobileVITs are a combination of CNN and transformer blocks, in particular CNNs are <b>Inverted Residual blocks</b>. These operations form the crux of MobileNetV2 architecture. Anyways, below we can see the operations present in 
         a single inverted residual block. It follows narrow --> wdie --> narrow approach</p>
