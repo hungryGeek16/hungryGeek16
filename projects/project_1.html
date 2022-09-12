@@ -124,7 +124,7 @@
           Note that the image is structured in the form of nine <b>n x 3 x 3 x C/n</b> patches in row-column wise manner. For the purpose of understanding we'll consider that attention module is single headed.<br>
           <img src="../images/splits.png" alt="VIT" width="800" class="center">
           <br>
-          2. Second, the dot product of Q and transpose of K is taken, the purpose behind taking this dot product is to get a value that defines the relation between each patch with other patches present in the image. For concrete understanding, refer to the image below:<br>
+          2. Second, the dot product of Q and transpose of K is taken, the purpose behind taking this dot product is to get values that defines the relation between each patch with other patches present in the image. For concrete understanding, refer to the image below:<br>
           <img src="../images/qk.png" alt="VIT_1" width="600" class="center">
           So patch at position (0, 0, 0), will be multiplied with every other patch like (0, 0, 1), ...., (0, 2, 2), in the same way patch at position (0,0,1) will be multiplied with (0,0,0), (0,0,2) and so on, matching every respective channel of those patches. These values are scaled by using a predefined scalar, conseqeuently, they're are further passed on to a softmax function that would bring values between 0 to 1. Hence this vector would act as scores for each patch with respect to other patches.
           <br><br>
