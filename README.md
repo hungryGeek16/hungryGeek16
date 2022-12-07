@@ -2,7 +2,7 @@ Hey, there! 😎
 
 <p align="center"><img src="https://github.com/hungryGeek16/rahul_mangalampalli/blob/master/images/vision_gif.gif" height=600 width=700></p>
 
-## Quick Intorduction:
+## Quick Introduction:
 
 * I'm a computer **VISION** engineer. Loves to code in c++ and python.🐍
 * | Research | Training | Deployment | Analysis | , in that order ->,  
@@ -17,7 +17,5 @@ Hey, there! 😎
   <br><br>
   <img src="https://github-readme-stats.vercel.app/api/top-langs?username=hungryGeek16&theme=calm&border_radius=15&langs_count=8&layout=compact&hide_border=true" width="40%"  alt="aadhitya's top languages used" />
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=hungryGeek16&theme=calm&hide_border=true" alt="aadhitya's github streak" width="55%" />
-  <br><br>
-  <img src="https://activity-graph.herokuapp.com/graph?username=hungryGeek16&theme=rogue&hide_border=true&color=df7b5f&bg_color=373f51&line=e6caaf&point=ecae49" width="90%" alt="aadhitya's contribution graph" />
 </p>
 <br>
