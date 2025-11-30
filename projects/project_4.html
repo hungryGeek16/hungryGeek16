@@ -174,7 +174,7 @@
           cd llama.cpp <br>
           
           # 6. Configure CMake with Ninja and CUDA support <br>
-          cmake -B build -DGGML_CUDA=on -G Ninja <br>
+          cmake .. -G Ninja -DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release <br>
           
           # 7. Build using Ninja with two jobs <br>
           ninja -C build -j2 <br>
