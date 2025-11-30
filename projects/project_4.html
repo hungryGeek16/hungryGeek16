@@ -191,6 +191,7 @@
           The script also triggers the model download into /root/.cache/llama.cpp on the first run, which takes some time, but every subsequent run is much faster because the model remains cached. 
           Use the following script inside the /workspace directory in the Docker container.
         </p>
+        <pre>
         <code>
           import subprocess<br>
           import threading<br>
@@ -278,13 +279,16 @@
                   f.write(result)<br>
 
         </code>
+        </pre>                
 
         <p>
           After running the script, the full corrected code is written into vlm_output.txt. You can inspect it directly with:
         </p>
+        <pre>
         <code>
           cat vlm_output.txt <br>
         </code>
+        </pre>
         </div>
       </div>
     
