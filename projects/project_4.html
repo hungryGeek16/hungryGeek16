@@ -266,10 +266,7 @@
                       
                       """<br>
           
-              #repo = "openbmb/MiniCPM-V-2_6-gguf"<br>
-          
-              repo = "mradermacher/InternVL2-1B-GGUF"<br>
-          
+              repo = "openbmb/MiniCPM-V-2_6-gguf"<br>
               result = vlm_infer(image, prompt, repo)<br>
           
               print("\n--- OUTPUT ---\n")<br>
@@ -286,9 +283,105 @@
         </p>
         <pre>
         <code>
+          python execute.py /workspace/error.png <br>
           cat vlm_output.txt <br>
         </code>
         </pre>
+
+         <h4 class="h4 fw-light mb-4"> <b>1. Sample 1 </b> </h4>
+         <p>Input fed:</p>
+          <img src="../images/3.png" alt="vlm"  width="800" height="500" class="center">
+          <p>Corrected Output:</p>
+        
+          <pre>
+          <code>
+          
+          value = "10"<br>
+          try:<br>
+              x = int(value)<br>
+              print(x)<br>
+          except ValueError:<br>
+              print("Error converting value")<br>
+
+          </code>
+          </pre>
+
+          <ul>
+            <li>The VLM correctly focused on the type conversion shown in the screenshot, identifying that the user input "10" is a string.</li>
+            <li>It incorrectly claimed that "10" cannot be converted to an integer even though "10" is a valid numeric string, which shows that the VLM sometimes overgeneralizes based on error-shaped prompts.</li>
+            <li>Despite this, it preserved the structure of the try-except block and rewrote the code into a clean, syntactically correct format.</li>
+            <li>It correctly replaced the bare except with an explicit ValueError, which is considered better practice.</li>
+            <li>The final output is executable, consistent, and formatted in a standard Python style, showing that the VLM handled the visual input and produced structured code successfully.</li>
+          </ul>
+
+
+         <h4 class="h4 fw-light mb-4"> <b>2. Sample 2 </b> </h4>
+         <p>Input fed:</p>
+          <img src="../images/4.png" alt="vlm"  width="800" height="500" class="center">
+          <p>Corrected Output:</p>
+        
+          <pre>
+          <code>
+          def process_values(values):<br>
+              total = 0<br>
+              for v in values:<br>
+                  if isinstance(v, int):<br>
+                      total += v<br>
+                  else:<br>
+                      print("Skipping non integer:", v)<br>
+              return total<br>
+          
+          data = [5, "x", 12, "3", 9]<br>
+          result = process_values(data)<br>
+          print("Total:", result)<br>
+          </code>
+          </pre>
+
+          <ul>
+            <li>The VLM correctly understood the screenshot and reconstructed the full function without altering the overall logic.</li>
+            <li>It preserved the integer filtering logic using <code>isinstance(v, int)</code> and maintained the accumulation of only valid integer values.</li>
+            <li>It recognized that non integer values should be skipped and kept the print message consistent with the screenshot.</li>
+            <li>It reproduced the input list and function call exactly, showing that it extracted structural information from the screenshot accurately.</li>
+            <li>The VLM did not propose additional corrections because the code in the screenshot is already logically correct, so it simply rewrote it cleanly.</li>
+          </ul>
+
+         <h4 class="h4 fw-light mb-4"> <b>3. Sample 23 </b> </h4>
+         <p>Input fed:</p>
+          <img src="../images/5.png" alt="vlm"  width="800" height="500" class="center">
+          <p>Corrected Output:</p>
+        
+          <pre>
+          <code>
+          def divide_values(values):<br>
+              result = []<br>
+              for v in values:<br>
+                  result.append(10 / v)<br>
+              return result<br>
+          
+          nums = [5, 2, 0, 4, 1]<br>
+          output = divide_values(nums)<br>
+          print("Results:", output)<br>
+          </code>
+          </pre>
+          
+          <ul>
+            <li>The VLM reconstructed the function correctly and maintained the overall structure shown in the screenshot.</li>
+            <li>It incorrectly claimed a NameError due to result not being initialized, even though the screenshot clearly shows result = [] already present.</li>
+            <li>It preserved the loop logic and the append operation exactly as written in the image.</li>
+            <li>It replicated the input list and function call accurately from the screenshot.</li>
+            <li>The VLM did not address the real issue, which is division by zero when v = 0, showing its tendency to infer errors based on pattern expectations rather than visual inspection.</li>
+          </ul>
+
+          <p>
+            The examples show that the VLM consistently reconstructs the code structure with high accuracy and preserves indentation, control flow, and function layout directly from the screenshot. 
+            Its reasoning efficiency is good for simple patterns, and it converts visual code into text with low latency once cached. 
+            The complexity of all snippets remains linear because the logic relies on single pass loops or direct operations. 
+            The VLM occasionally misidentifies the true source of an error, showing that it leans on learned error patterns rather than precise visual grounding. 
+            Even with these limitations, the model produces clean, runnable code and maintains consistent formatting, which demonstrates strong utility for automated debugging and code extraction workflows.
+          </p>
+
+                      
+          
         </div>
       </div>
     
