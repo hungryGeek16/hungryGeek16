@@ -152,34 +152,34 @@
         </p>
 
         <code>
-          # 1. Pull the NVIDIA PyTorch Docker image
-          docker pull nvcr.io/nvidia/pytorch:24.02-py3
+          # 1. Pull the NVIDIA PyTorch Docker image <br>
+          docker pull nvcr.io/nvidia/pytorch:24.02-py3 <br>
 
-          # 2. Start a container with GPU access
-          docker run -it --gpus all \
-              -v $PWD:/workspace \
-              nvcr.io/nvidia/pytorch:24.02-py3 \
-              bash
+          # 2. Start a container with GPU access <br>
+          docker run -it --gpus all \ <br>
+              -v $PWD:/workspace \ <br>
+              nvcr.io/nvidia/pytorch:24.02-py3 \ <br>
+              bash <br>
           
-          # 3. Inside the container, update and upgrade packages
-          apt update
-          apt upgrade -y
+          # 3. Inside the container, update and upgrade packages <br>
+          apt update <br>
+          apt upgrade -y <br>
           
-          # 4. Install required build tools
-          apt install -y git cmake ninja-build
+          # 4. Install required build tools <br>
+          apt install -y git cmake ninja-build <br>
           
-          # 5. Clone llama.cpp
-          git clone https://github.com/ggerganov/llama.cpp
-          cd llama.cpp
+          # 5. Clone llama.cpp <br>
+          git clone https://github.com/ggerganov/llama.cpp <br>
+          cd llama.cpp <br>
           
-          # 6. Configure CMake with Ninja and CUDA support
-          cmake -B build -DGGML_CUDA=on -G Ninja
+          # 6. Configure CMake with Ninja and CUDA support <br>
+          cmake -B build -DGGML_CUDA=on -G Ninja <br>
           
-          # 7. Build using Ninja with two jobs
-          ninja -C build -j2
+          # 7. Build using Ninja with two jobs <br>
+          ninja -C build -j2 <br>
           
-          # 8. Build the multimodal CLI binary
-          ninja -C build llama-mtmd-cli -j2
+          # 8. Build the multimodal CLI binary <br>
+          ninja -C build llama-mtmd-cli -j2 <br>
           
          </code>
         </div>
