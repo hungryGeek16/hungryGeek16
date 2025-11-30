@@ -184,6 +184,107 @@
           
          </code>
         </pre>
+
+        <p>
+          After completing the build steps and downloading a working multimodal GGUF model, the model can be executed through a simple Python wrapper script. 
+          This wrapper handles the spinner animation, runs the llama-mtmd-cli binary with the correct arguments, captures the output, and saves it into vlm_output.txt. 
+          The script also triggers the model download into /root/.cache/llama.cpp on the first run, which takes some time, but every subsequent run is much faster because the model remains cached. 
+          Use the following script inside the /workspace directory in the Docker container.
+        </p>
+        <code>
+          import subprocess<br>
+          import threading<br>
+          import itertools<br>
+          import time<br>
+          import sys<br>
+          
+          def show_spinner(stop_event):<br>
+              for c in itertools.cycle("|/-\\"):<br>
+                  if stop_event.is_set():<br>
+                      break<br>
+                  print("\rRunning inference " + c, end="", flush=True)<br>
+                  time.sleep(0.1)<br>
+              print("\rInference complete    ")<br>
+          
+          def vlm_infer(image_path, prompt, repo, ngl=12, ctx=2048):<br>
+              stop_event = threading.Event()<br>
+              spinner_thread = threading.Thread(target=show_spinner, args=(stop_event,))<br>
+              spinner_thread.start()<br>
+          
+              cmd = [<br>
+                  "./llama.cpp/build/bin/llama-mtmd-cli",<br>
+                  "-hf", repo,<br>
+                  "-c", str(ctx),<br>
+                  "-ngl", str(ngl),<br>
+                  "--no-mmproj-offload",<br>
+                  "--image", image_path,<br>
+                  "-p", prompt,<br>
+              ]<br>
+          
+              proc = subprocess.Popen(<br>
+                  cmd,<br>
+                  stdout=subprocess.PIPE,<br>
+                  stderr=subprocess.PIPE,<br>
+                  text=True<br>
+              )<br>
+          
+              out, err = proc.communicate()<br>
+          
+              stop_event.set()<br>
+              spinner_thread.join()<br>
+          
+              if proc.returncode != 0:<br>
+                  raise RuntimeError(f"VLM failed:\n{err}")<br>
+          
+              return out.strip()<br>
+          
+          if __name__ == "__main__":<br>
+              
+              if len(sys.argv) < 2:<br>
+                  print("Usage: python execute.py <image_path>")<br>
+                  sys.exit(1)<br>
+          
+              image = sys.argv[1]<br>
+              
+              prompt = f""" <br>
+          
+                      Extract only the error text from the screenshot.<br>
+          
+                      Explain clearly what is wrong based only on the error message.<br>
+                      Do not guess anything that is not explicitly shown.<br>
+          
+                      Then rewrite the entire code with the issue fully corrected.<br>
+          
+                      Your output must always follow this exact format:<br>
+          
+                      Reason:<br>
+                      <clear explanation><br>
+          
+                      Corrected Code:<br>
+                      <full corrected code><br>
+                      
+                      """<br>
+          
+              #repo = "openbmb/MiniCPM-V-2_6-gguf"<br>
+          
+              repo = "mradermacher/InternVL2-1B-GGUF"<br>
+          
+              result = vlm_infer(image, prompt, repo)<br>
+          
+              print("\n--- OUTPUT ---\n")<br>
+              print(result)<br>
+          
+              with open("vlm_output.txt", "w") as f:<br>
+                  f.write(result)<br>
+
+        </code>
+
+        <p>
+          After running the script, the full corrected code is written into vlm_output.txt. You can inspect it directly with:
+        </p>
+        <code>
+          cat vlm_output.txt <br>
+        </code>
         </div>
       </div>
     
