@@ -46,26 +46,22 @@
 
 <div class="page-content">
   <div class="container">
-      <div class="shadow-1-strong bg-white my-5 p-5" id="drawbacks">
-        <div class="drawbacks-section">
-        <h2 class="h2 fw-light mb-4"> <u>a. Drawbacks of CNNs: </u></h2>
-        <p> The problem with traditional CNNs is that, though they capture local dependencies in an image, they lack the concept of <b>"big picture"</b>. 
-         In a sense they fail to capture global context of a particular image. For example, if we refer to the image shown below (a popular meme from the internet),and when a state-of-the-art CNN based model that was trained on imagnet
-         looks at this image, then it's definitely not going to classify it as a dog with a higher confidence. Maybe its going to see it as a tiger or a zebra, in some cases. </p>
-         Apparently, what the model fails to observe are two major features of this image:<br>
-         1) There's a shadow of poles falling on the dog. <br>
-         2) Even if its similar to a wild animal(like a tiger, say), mostly we don't see them roaming on concrete roads freely. <br>
+      <div class="shadow-1-strong bg-white my-5 p-5" id="why">
+        <div class="why-section">
+        <h2 class="h2 fw-light mb-4"> <u>Why run VLMs locally? </u></h2>
+        <p> Running VLMs locally gives you a safer and more predictable environment for code editing, debugging, and screenshot based analysis. 
+          When everything stays on your machine, you avoid exposure to external systems, reduce latency, and keep full control over how the agent interprets and applies fixes.<br>
+         1) Everything stays on your machine and avoids exposure to online adversarial risks seen in services like Comet. <br>
+         2) No network round trip means faster extraction of errors and quicker fixes, which makes debugging loops smoother. <br>
+         3) Local models do not change silently, so outputs remain stable and predictable across runs, which matters for agents expecting structured formats. <br>
+         4) You decide prompts, parsing rules, and patch formats without interference from external safety layers or hidden system prompts. <br>
+         5) Local VLMs keep working in secure or disconnected environments, which is important for robotics, embedded systems, and restricted corporate setups. <br>
          <br>
 
-         <img src="../images/dog.jpg" alt="Lacking context"  width="500" height="500" class="center"> 
+         <img src="../images/pic1.jpg" alt="Lacking context"  width="500" height="500" class="center"> 
          <div style="text-align: center"> 
-          <a href=" https://in.pinterest.com/pin/740490363718406565/"> Source:Pinterest </a> 
+          <a href="https://encord.com/blog/vision-language-models-guide/"> Source:Encord </a> 
         </div>
-         <br>
-
-        <p>The point is, its necessary for any vision model to have an overall understanding of relationships between each element that constitutes an image. To achieve this, 
-         we need to have a specialized architecture, that do not require any external intervention.</p>
-
         </div>
       </div>    
 
