@@ -140,6 +140,50 @@
           </p>
         </div>
     </div>
+
+    <div class="shadow-1-strong bg-white my-5 p-5" id="exp">
+      <div class="exp-section">
+        <h2 class="h2 fw-light mb-4"> <u>Experiments </u></h2>
+
+        <p> 
+        The experiments section demonstrates how I ran a compact Vision Language Model locally using my system configuration, which included a GPU with at least 4 GB of VRAM, 16 GB of system RAM, Ubuntu as the operating system, and Docker already installed. 
+        This setup was sufficient to run quantized multimodal GGUF models efficiently and extract information from screenshots using llama.cpp. 
+        The following steps outline the exact workflow from launching the Docker container to executing the VLM on an input image.
+        </p>
+
+        <code>
+          # 1. Pull the NVIDIA PyTorch Docker image
+          docker pull nvcr.io/nvidia/pytorch:24.02-py3
+
+          # 2. Start a container with GPU access
+          docker run -it --gpus all \
+              -v $PWD:/workspace \
+              nvcr.io/nvidia/pytorch:24.02-py3 \
+              bash
+          
+          # 3. Inside the container, update and upgrade packages
+          apt update
+          apt upgrade -y
+          
+          # 4. Install required build tools
+          apt install -y git cmake ninja-build
+          
+          # 5. Clone llama.cpp
+          git clone https://github.com/ggerganov/llama.cpp
+          cd llama.cpp
+          
+          # 6. Configure CMake with Ninja and CUDA support
+          cmake -B build -DGGML_CUDA=on -G Ninja
+          
+          # 7. Build using Ninja with two jobs
+          ninja -C build -j2
+          
+          # 8. Build the multimodal CLI binary
+          ninja -C build llama-mtmd-cli -j2
+          
+         </code>
+        </div>
+      </div>
     
     <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=Xu20jxZEZp3NEmsYlQuxeJ7zZA_LYtdA0zElkuGoWm4&cl=ffffff&w=a"></script>
       </div>
